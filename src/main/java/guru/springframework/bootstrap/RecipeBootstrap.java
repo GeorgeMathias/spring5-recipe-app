@@ -33,14 +33,13 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     }
 
     @Override
-    @Transactional //Create a transaction around method so lazy intialization method error doesn't happen
+    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
         recipeRepository.saveAll(getRecipes());
+        log.debug("Loading Bootstrap Data");
     }
 
     private List<Recipe> getRecipes() {
-
-        log.debug("In getRecipes");
 
         List<Recipe> recipes = new ArrayList<>(2);
 
@@ -104,8 +103,6 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 
         Category americanCategory = americanCategoryOptional.get();
         Category mexicanCategory = mexicanCategoryOptional.get();
-
-        log.debug("Now loading bootstrap data...");
 
         //Yummy Guac
         Recipe guacRecipe = new Recipe();

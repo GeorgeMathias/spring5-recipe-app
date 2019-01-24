@@ -6,14 +6,17 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Created by jt on 6/13/17.
+ */
 @Data
 @Entity
 public class Recipe {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String description;
     private Integer prepTime;
     private Integer cookTime;
@@ -37,14 +40,16 @@ public class Recipe {
     private Notes notes;
 
     @ManyToMany
-    @JoinTable(name = "receipe_category",
-            joinColumns = @JoinColumn(name="recipe_id"), inverseJoinColumns = @JoinColumn(name="category_id"))
+    @JoinTable(name = "recipe_category",
+        joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
 
-    public void setNotes(Notes notes)
-    {
-        this.notes = notes;
-        notes.setRecipe(this);
+    public void setNotes(Notes notes) {
+        if (notes != null) {
+            this.notes = notes;
+            notes.setRecipe(this);
+        }
     }
 
     public Recipe addIngredient(Ingredient ingredient){
